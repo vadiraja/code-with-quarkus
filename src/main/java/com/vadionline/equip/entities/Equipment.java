@@ -1,148 +1,153 @@
 package com.vadionline.equip.entities;
 
-//import java.text.ParseException;
-//import java.text.SimpleDateFormat;
-//import java.time.LocalDate;
-import java.util.Date;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.neo4j.ogm.annotation.*;
+
 import java.util.List;
 
-
-import jakarta.json.bind.annotation.JsonbTypeSerializer;
-import org.neo4j.driver.types.Node;
-import org.neo4j.ogm.annotation.Id;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Property;
-import org.neo4j.ogm.annotation.Relationship;
-
-@NodeEntity
+@NodeEntity (label = "Equipment")
 public class Equipment {
+    public Long getId() {
+        return id;
+    }
 
-    //add an id field
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    //map to id attribute in Equipment class
-    public Long id;
-    public String name;
-//    public String manufacturer;
-//    public String model;
-//    public String serialNumber;
-//    @Property(name = "productionDate")
-//    public Date productionDate;
-//    public Date purchaseDate;
-//    public String specification;
-//    public String machineType;
-//    //add an uri field for image
-//    public String imageUri;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-//    @Relationship(type = "HAS_LOG", direction = Relationship.Direction.OUTGOING)
-//    public List<MaintenanceLog> maintenanceLogs;
-//
-//
-//    @Relationship(type = "OWNED_BY", direction = Relationship.Direction.INCOMING)
-//    public Person owner;
+    public Long getEid() {
+        return eid;
+    }
 
-//
-//    public Equipment() {
-//        // This is needed for the REST-Easy JSON Binding
-//    }
-//
-//    public Equipment(String name) {
-//        this.name = name;
-//    }
+    public void setEid(Long eid) {
+        this.eid = eid;
+    }
 
-//    public Equipment(String id, String name) {
-//        this.id = id;
+    @Property(name = "id")
+    private Long eid;
+
+
+    @Property(name = "name")
+    private String name;
+
+    @Property(name = "manufacturer")
+    private String manufacturer;
+
+    @Property(name = "model")
+    private String model;
+
+    @Property(name = "serialNumber")
+    private String serialNumber;
+
+    @Property(name = "specification")
+    private String specification;
+
+    @Property(name = "machineType")
+    private String machineType;
+
+    @Property(name = "imageUri")
+    private String imageUri;
+
+    public List<Person> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Person> users) {
+        this.users = users;
+    }
+
+    @Relationship(type = "USES", direction = Relationship.Direction.INCOMING)
+    @JsonSerialize(using = PersonSerializer.class)
+    private List<Person> users;
+
+    // Default constructor
+    public Equipment() {
+    }
+
+    // Constructor with all fields
+//    public Equipment(Long id, String name, String manufacturer, String model, String serialNumber,  String specification, String machineType, String imageUri) {
+    public Equipment(Long id, String name , Long eid, String manufacturer, String model, String serialNumber,  String specification, String machineType, String imageUri) {
+        this.id = id;
+        this.eid = eid;
+        this.name = name;
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.serialNumber = serialNumber;
+        this.specification = specification;
+        this.machineType = machineType;
+        this.imageUri = imageUri;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
+
+    public String getMachineType() {
+        return machineType;
+    }
+
+    public void setMachineType(String machineType) {
+        this.machineType = machineType;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
+//    public List<MaintenanceLog> getMaintenanceLogs() {
+//        return maintenanceLogs;
 //    }
 //
-//    public Equipment(
-//        String id,
-//        String name,
-//        String manufacturer,
-//        String model,
-//        String serialNumber,
-//        String productionDate,
-//        String purchaseDate,
-//        String specification,
-//        String machineType,
-//        String imageUri
-//    ) {
-//        this.id = id != null ? id : "";
-//        this.name = name != null ? name : "";
-//        this.manufacturer = manufacturer != null ? manufacturer : "";
-//        this.model = model != null ? model : "";
-//        this.serialNumber = serialNumber != null ? serialNumber : "";
-//        this.specification = specification != null ? specification : "";
-//        this.machineType = machineType != null ? machineType : "";
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        try {
-//            this.productionDate = productionDate != null
-//                ? sdf.parse(productionDate)
-//                : null;
-//            this.purchaseDate = purchaseDate != null
-//                ? sdf.parse(purchaseDate)
-//                : this.purchaseDate;
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
-//        this.imageUri = imageUri != null ? imageUri : "";
+//    public void setMaintenanceLogs(List<MaintenanceLog> maintenanceLogs) {
+//        this.maintenanceLogs = maintenanceLogs;
 //    }
 //
-//    public Equipment(
-//        String id,
-//        String name,
-//        String manufacturer,
-//        String model,
-//        String serialNumber,
-//        Date productionDate,
-//        Date purchaseDate,
-//        String specification,
-//        String machineType,
-//        String imageUri
-//    ) {
-//        this.id = id;
-//        this.name = name;
-//        this.manufacturer = manufacturer;
-//        this.model = model;
-//        this.serialNumber = serialNumber;
-//        this.productionDate = productionDate;
-//        this.purchaseDate = purchaseDate;
-//        this.specification = specification;
-//        this.machineType = machineType;
-//        this.imageUri = imageUri;
-//    }
-//
-//    // Create Equipment from Neo4J Node
-//    public static Equipment from(Node node) {
-//        return new Equipment(
-//            String.valueOf(node.get("id")),
-//            node.get("name").isNull() ? null : node.get("name").asString(),
-//            node.get("manufacturer").isNull()
-//                ? null
-//                : node.get("manufacturer").asString(),
-//            node.get("model").isNull() ? null : node.get("model").asString(),
-//            node.get("serialNumber").isNull()
-//                ? null
-//                : node.get("serialNumber").asString(),
-//            node.get("productionDate").isNull()
-//                ? null
-//                : node.get("productionDate").asString(),
-//            node.get("purchaseDate").isNull()
-//                ? null
-//                : node.get("purchaseDate").asString(),
-//                // Add specification field
-//            node.get("specification").isNull()
-//                ? null
-//                : node.get("specification").asString(),
-//                // Add machineType field
-//            node.get("type").isNull()
-//                ? null
-//                : node.get("type").asString(),
-//                // Add imageUri field
-//            node.get("imageUri").isNull()
-//                ? null
-//                : node.get("imageUri").asString()
-//
-//
-//
-//        );
-//    }
+
 }
